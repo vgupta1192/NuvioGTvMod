@@ -60,6 +60,12 @@ fun ProfileAvatarCircle(
             ),
         contentAlignment = Alignment.Center
     ) {
+        Text(
+            text = initial,
+            color = Color.White,
+            fontSize = fontSize,
+            fontWeight = FontWeight.Bold
+        )
         if (imageRequest != null) {
             AsyncImage(
                 model = imageRequest,
@@ -68,13 +74,6 @@ fun ProfileAvatarCircle(
                     .size(size)
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
-            )
-        } else {
-            Text(
-                text = initial,
-                color = Color.White,
-                fontSize = fontSize,
-                fontWeight = FontWeight.Bold
             )
         }
     }

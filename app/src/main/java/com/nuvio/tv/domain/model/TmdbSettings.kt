@@ -1,7 +1,7 @@
 package com.nuvio.tv.domain.model
 
 data class TmdbSettings(
-    val enabled: Boolean = false,
+    val enabled: Boolean = true,
     val modernHomeEnabled: Boolean = false,
     val enrichContinueWatching: Boolean = true,
     // TMDB language preference (ISO-639-1, default English)

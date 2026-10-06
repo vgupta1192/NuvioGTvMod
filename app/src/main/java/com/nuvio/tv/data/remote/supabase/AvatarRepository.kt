@@ -151,6 +151,8 @@ class AvatarRepository @Inject constructor(
 
     fun getAvatarImageUrl(avatarId: String, catalog: List<AvatarCatalogItem>): String? {
         return catalog.find { it.id == avatarId }?.imageUrl
+            ?: cachedStandardCatalog?.find { it.id == avatarId }?.imageUrl
+            ?: standardMetadata.find { it.id == avatarId }?.let { toStandardCatalogItem(it).imageUrl }
             ?: latestCachedMemberAvatar(avatarId)?.toURI()?.toString()
     }
 
@@ -244,8 +246,10 @@ class AvatarRepository @Inject constructor(
 
     private fun avatarImageUrl(storagePath: String): String {
         if (storagePath.startsWith("http://") || storagePath.startsWith("https://")) return storagePath
-        val baseUrl = serverConfiguration.avatarPublicBaseUrl.orEmpty().trimEnd('/')
-        return if (baseUrl.isNotEmpty()) "$baseUrl/$storagePath" else storagePath
+        val baseUrl = serverConfiguration.avatarPublicBaseUrl?.trimEnd('/')
+            ?.takeIf { it.isNotBlank() }
+            ?: "${serverConfiguration.backendUrl.trimEnd('/')}/storage/v1/object/public/avatars"
+        return "$baseUrl/$storagePath"
     }
 
     private suspend fun cacheMemberAvatar(item: SupabaseMemberAvatarCatalogItem): File = withContext(Dispatchers.IO) {

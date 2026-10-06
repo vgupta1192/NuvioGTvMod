@@ -76,7 +76,7 @@ class TmdbSettingsViewModel @Inject constructor(
 }
 
 data class TmdbSettingsUiState(
-    val enabled: Boolean = false,
+    val enabled: Boolean = true,
     val modernHomeEnabled: Boolean = false,
     val enrichContinueWatching: Boolean = true,
     val language: String = "en",

@@ -3,6 +3,7 @@ package com.nuvio.tv.data.remote.api
 import com.nuvio.tv.data.remote.dto.mdblist.MDBListMediaResponseDto
 import com.nuvio.tv.data.remote.dto.mdblist.MDBListRatingRequestDto
 import com.nuvio.tv.data.remote.dto.mdblist.MDBListRatingResponseDto
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -22,7 +23,7 @@ interface MDBListApi {
     @GET("user")
     suspend fun getUser(
         @Query("apikey") apiKey: String
-    ): Response<Unit>
+    ): Response<ResponseBody>
 
     @POST("rating/{mediaType}/{ratingType}")
     suspend fun getRating(
