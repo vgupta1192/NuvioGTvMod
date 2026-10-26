@@ -69,6 +69,7 @@ class MDBListSettingsViewModel @Inject constructor(
             _validating.value = false
             if (valid) {
                 dataStore.setApiKey(trimmed)
+                dataStore.setEnabled(true)
                 onSuccess()
             } else {
                 _validationError.tryEmit(Unit)

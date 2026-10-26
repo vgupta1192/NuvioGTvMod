@@ -103,7 +103,7 @@ fun MDBListSettingsContent(
                         subtitle = stringResource(R.string.mdblist_api_key_subtitle),
                         value = maskApiKey(uiState.apiKey, stringResource(R.string.mdblist_not_set)),
                         onClick = { showApiKeyDialog = true },
-                        enabled = uiState.enabled
+                        enabled = true
                     )
                 }
 

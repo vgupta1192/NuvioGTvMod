@@ -69,6 +69,7 @@ class ServerConfigurationStore @Inject constructor(
         tvLoginWebBaseUrl = BuildConfig.TV_LOGIN_WEB_BASE_URL,
         deviceLoginWebBaseUrl = BuildConfig.DEVICE_LOGIN_WEB_BASE_URL,
         avatarPublicBaseUrl = BuildConfig.AVATAR_PUBLIC_BASE_URL.trimEnd('/').takeIf { it.isNotBlank() }
+            ?: "${BuildConfig.SUPABASE_URL.trimEnd('/')}/storage/v1/object/public/avatars"
     )
 
     private companion object {

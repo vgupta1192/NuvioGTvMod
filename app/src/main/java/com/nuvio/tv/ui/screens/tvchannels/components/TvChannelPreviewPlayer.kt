@@ -179,11 +179,16 @@ fun TvChannelPreviewPlayer(
                             ViewGroup.LayoutParams.MATCH_PARENT
                         )
                         this.player = player
+                        this.keepScreenOn = isPlaying
                     }
                 },
                 update = { view ->
                     if (view.player != player) {
                         view.player = player
+                    }
+                    val shouldKeepScreenOn = isPlaying || isBuffering
+                    if (view.keepScreenOn != shouldKeepScreenOn) {
+                        view.keepScreenOn = shouldKeepScreenOn
                     }
                 }
             )

@@ -22,9 +22,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Tv
+import android.app.Activity
+import android.content.ContextWrapper
+import android.view.WindowManager
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
@@ -33,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -92,6 +97,24 @@ fun TvChannelFullscreenHud(
     val playableUrl = activeStream?.playableTvUrl
     val streamHeaders = activeStream?.behaviorHints?.proxyHeaders?.request
     var playbackError by remember(playableUrl) { mutableStateOf<String?>(null) }
+
+    val context = LocalContext.current
+    DisposableEffect(Unit) {
+        val activity = (context as? Activity)
+            ?: (context as? ContextWrapper)?.let {
+                var ctx: android.content.Context? = it
+                while (ctx is ContextWrapper) {
+                    if (ctx is Activity) return@let ctx
+                    ctx = ctx.baseContext
+                }
+                null
+            }
+        val window = activity?.window
+        window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        onDispose {
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+    }
 
     // Captura o botão Voltar do controle
     BackHandler {
